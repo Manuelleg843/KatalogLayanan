@@ -17,6 +17,7 @@ model User {
   id                       Int                   @id @default(autoincrement())
   email                    String                @unique @db.VarChar(100)
   nama                     String                @db.VarChar(100)
+  no_telp                  String                @db.VarChar(100)
   password                 String                @db.VarChar(100)
   role                     Int                   @default(0)
   penyelenggara_layanan_id Int?
@@ -27,12 +28,84 @@ model User {
 }
 
 model PenyelenggaraLayanan {
-  id        Int    @id @default(autoincrement())
-  nama      String @db.VarChar(100)
-  deskripsi String @db.Text
-  email     String @unique @db.VarChar(100)
-  telp      String @db.VarChar(100)
-  User      User[]
+  id             Int              @id @default(autoincrement())
+  nama           String           @db.VarChar(100)
+  deskripsi      String?          @db.Text
+  email          String?          @unique @db.VarChar(100)
+  telp           String?          @db.VarChar(100)
+  User           User[]
+  StandarLayanan StandarLayanan[]
 
   @@map("penyelenggara_layanan")
+}
+
+model StandarLayanan {
+  id                                     Int                  @id @default(autoincrement())
+  nama_layanan                           String               @db.VarChar(100)
+  persyaratan                            String?              @db.Text
+  sistem_mekanisme_dan_prosedur          String?              @db.Text
+  jangka_waktu_pelayanan                 String?              @db.VarChar(100)
+  biaya_tarif                            String?              @db.VarChar(100)
+  produk_layanan                         String?              @db.Text
+  penanganan_pengaduan_saran_masukan     String?              @db.Text
+  dasar_hukum                            String?              @db.Text
+  sarana_prasarana_fasilitas             String?              @db.Text
+  kopetensi_pelaksana                    String?              @db.Text
+  pengawasan_internal                    String?              @db.VarChar(100)
+  jumlah_pelaksana                       String?              @db.VarChar(100)
+  jaminan_pelayanan                      String?              @db.Text
+  jaminan_keamanan_keselamatan_pelayanan String?              @db.Text
+  evaluasi_kinerja_pelaksana             String?              @db.Text
+  gambar                                 String?              @db.VarChar(100)
+  link                                   String?              @db.VarChar(100)
+  penyelenggara_layanan_id               Int
+  penyelenggara_layanan                  PenyelenggaraLayanan @relation(fields: [penyelenggara_layanan_id], references: [id])
+
+  @@map("standar_layanan")
+}
+
+model Roles {
+  id                Int                 @id @default(autoincrement())
+  role              String              @db.VarChar(100)
+  deskripsi         String              @db.VarChar(100)
+  RoleHasPermission RoleHasPermission[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id                Int                 @id @default(autoincrement())
+  hak_akses         String              @db.VarChar(100)
+  deskripsi         String              @db.VarChar(100)
+  RoleHasPermission RoleHasPermission[]
+
+  @@map("permission")
+}
+
+model RoleHasPermission {
+  id            Int        @id @default(autoincrement())
+  role_id       Int
+  permission_id Int
+  Roles         Roles      @relation(fields: [role_id], references: [id])
+  Permission    Permission @relation(fields: [permission_id], references: [id])
+
+  @@map("role_has_permission")
+}
+
+model KomponenLayanan {
+  id                      Int                     @id @default(autoincrement())
+  nama_komponen           String                  @db.VarChar(100)
+  deskripsi               String                  @db.Text
+  kelompok_komponen_id    Int
+  KelompokKomponenLayanan KelompokKomponenLayanan @relation(fields: [kelompok_komponen_id], references: [id])
+
+  @@map("komponen_layanan")
+}
+
+model KelompokKomponenLayanan {
+  id              Int               @id @default(autoincrement())
+  nama_kelompok   String            @db.VarChar(100)
+  KomponenLayanan KomponenLayanan[]
+
+  @@map("kelompok_komponen_layanan")
 }

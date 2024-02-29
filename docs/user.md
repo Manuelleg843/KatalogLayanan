@@ -10,7 +10,7 @@ Endpoint : POST /api/users
 {
   "email": "221910843@stis.ac.id",
   "nama": "Emanuel Lega",
-  "no_hp": "085123456789",
+  "no_telp": "085123456789",
   "password": "passwordrahasia"
 }
 ```
@@ -21,7 +21,7 @@ Endpoint : POST /api/users
 {
   "data": {
     "id": 1,
-    "role": 1,
+    "role": 0,
     "email": "221910843@stis.ac.id",
     "nama": "Emanuel Lega",
     "no_hp": "085123456789"
