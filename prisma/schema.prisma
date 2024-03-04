@@ -19,7 +19,8 @@ model User {
   nama                     String                @db.VarChar(100)
   no_telp                  String                @db.VarChar(100)
   password                 String                @db.VarChar(100)
-  role                     Int                   @default(0)
+  role_id                  Int                   @default(0)
+  Roles                    Roles                 @relation(fields: [role_id], references: [id])
   penyelenggara_layanan_id Int?
   penyelenggara_layanan    PenyelenggaraLayanan? @relation(fields: [penyelenggara_layanan_id], references: [id])
   token                    String?               @db.VarChar(100)
@@ -68,6 +69,7 @@ model Roles {
   id                Int                 @id @default(autoincrement())
   role              String              @db.VarChar(100)
   deskripsi         String              @db.VarChar(100)
+  User              User[]
   RoleHasPermission RoleHasPermission[]
 
   @@map("roles")

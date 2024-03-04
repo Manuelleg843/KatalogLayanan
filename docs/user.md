@@ -125,10 +125,17 @@ Headers :
 {
   "data": {
     "id": 1,
-    "role": 1,
+    "role": {
+      "id": 0,
+      "nama": "user"
+    },
     "email": "221910843@stis.ac.id",
     "nama": "Emanuel Lega",
-    "no_hp": "085123456789"
+    "no_hp": "085123456789",
+    "penyelenggara_layanan": {
+      "id": "",
+      "nama": ""
+    }
   }
 }
 ```

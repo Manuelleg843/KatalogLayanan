@@ -1,7 +1,6 @@
 import supertest from 'supertest';
 import { web } from '../src/application/web';
 import { createTestUser, removeTestUser } from './test.util';
-import { logger } from '../src/application/logging';
 
 describe('POST /api/users', function () {
 
@@ -83,8 +82,6 @@ describe('POST /api/users/login', function () {
                 'password': 'passwordtest'
             });
 
-        logger.info(result.body);
-
         expect(result.status).toBe(200);
         expect(result.body.data.token).toBeDefined();
         expect(result.body.data.token).not.toBe('testtoken');
@@ -95,10 +92,8 @@ describe('POST /api/users/login', function () {
             .post('/api/users/login')
             .send({
                 'email': '',
-                'password': ''
+                'password': 'wrongpassword'
             });
-
-        logger.info(result.body);
 
         expect(result.status).toBe(400);
         expect(result.body.errors).toBeDefined();
@@ -112,8 +107,6 @@ describe('POST /api/users/login', function () {
                 'password': 'wrongpassword'
             });
 
-        logger.info(result.body);
-
         expect(result.status).toBe(401);
         expect(result.body.errors).toBeDefined();
     });
@@ -126,10 +119,38 @@ describe('POST /api/users/login', function () {
                 'password': 'wrongpassword'
             });
 
-        logger.info(result.body);
-
         expect(result.status).toBe(401);
         expect(result.body.errors).toBeDefined();
     });
 
+});
+
+describe('GET /api/users/current', function () {
+    beforeEach(async () => {
+        await createTestUser();
+    });
+
+    afterEach(async () => {
+        await removeTestUser();
+    });
+
+    it('should can get current user', async () => {
+        const result = await supertest(web)
+            .get('/api/users/current')
+            .set('Authorization', 'testtoken');
+
+        expect(result.status).toBe(200);
+        expect(result.body.data.email).toBe("test@stis.ac.id");
+        expect(result.body.data.nama).toBe("test name");
+        expect(result.body.data.Roles.role).toBe("User");
+    });
+
+    it('should reject if token is invalid', async () => {
+        const result = await supertest(web)
+            .get('/api/users/current')
+            .set('Authorization', 'invalidtoken');
+
+        expect(result.status).toBe(401);
+        expect(result.body.errors).toBeDefined();
+    });
 });
