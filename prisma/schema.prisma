@@ -30,7 +30,7 @@ model User {
 
 model PenyelenggaraLayanan {
   id             Int              @id @default(autoincrement())
-  nama           String           @db.VarChar(100)
+  nama           String           @unique @db.VarChar(100)
   deskripsi      String?          @db.Text
   email          String?          @unique @db.VarChar(100)
   telp           String?          @db.VarChar(100)

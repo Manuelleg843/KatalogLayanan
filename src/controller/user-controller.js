@@ -34,8 +34,38 @@ const get = async (req, res, next) => {
     }
 }
 
+const update = async (req, res, next) => {
+    try {
+        const id = req.user.id;
+        const request = req.body;
+        request.id = id;
+
+        const result = await userService.update(request);
+        res.status(200).json({
+            data: result
+        });
+    } catch (e) {
+        next(e);
+    }
+}
+
+const logout = async (req, res, next) => {
+    try {
+        const id = req.user.id;
+        await userService.logout(id);
+        res.status(200).json({
+            data: "OK"
+        });
+    } catch (e) {
+        next(e);
+    }
+
+}
+
 export default {
     register,
     login,
-    get
+    get,
+    update,
+    logout
 };
