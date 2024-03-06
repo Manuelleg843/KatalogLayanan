@@ -1,0 +1,618 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Katalog Layanan RESTful API",
+        "version": "1.0.0",
+        "description": "OpenAPI for Katalog Layanan RESTful API",
+        "contact": {
+            "name": "Emanuel Lega",
+            "email": "221910843@stis.ac.id"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000/api",
+            "description": "Katalog Layanan RESTful API Server"
+        }
+    ],
+    "paths": {
+        "/users": {
+            "post": {
+                "tags": [
+                    "Users API"
+                ],
+                "summary": "Register User",
+                "description": "Register a new user",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nama": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "no_telp": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "nama": "Emanuel Lega",
+                                    "email": "221910843@stis.ac.id",
+                                    "no_telp": "081234567890",
+                                    "password": "passwordRahasia"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "data": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "format": "uuid"
+                                                    },
+                                                    "nama": {
+                                                        "type": "string"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "format": "email"
+                                                    },
+                                                    "Roles": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "number"
+                                                            },
+                                                            "role": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    },
+                                                    "no_telp": {
+                                                        "type": "string"
+                                                    },
+                                                    "penyelenggara_layanan": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "number"
+                                                            },
+                                                            "nama": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": "1",
+                                        "nama": "Emanuel Lega",
+                                        "email": "",
+                                        "role": {
+                                            "id": 0,
+                                            "role": "User"
+                                        },
+                                        "no_telp": "081234567890",
+                                        "penyelenggara_layanan": null
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/login": {
+            "post": {
+                "tags": [
+                    "Users API"
+                ],
+                "summary": "Login User",
+                "description": "Login user",
+                "responses": {
+                    "200": {
+                        "description": "User logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "data": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "data": "OK"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/current": {
+            "get": {
+                "tags": [
+                    "Users API"
+                ],
+                "summary": "Get Current User",
+                "description": "Get current user",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "description": "token",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "token 1": {
+                                "value": "1d6e06f6-7f7a-4f85-b24d-40e8eb612fd6"
+                            },
+                            "token 2": {
+                                "value": "5a49b6d4-ea86-4568-86b9-781dcf1b01e1"
+                            },
+                            "token 3": {
+                                "value": "a9e0a54f-8951-4d8b-bd4c-325cc059e399"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "number"
+                                            },
+                                            "nama": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "format": "email"
+                                            },
+                                            "Roles": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "number"
+                                                    },
+                                                    "role": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "no_telp": {
+                                                "type": "string"
+                                            },
+                                            "penyelenggara_layanan": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "number"
+                                                    },
+                                                    "nama": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "id": "1",
+                                    "nama": "Emanuel Lega",
+                                    "email": "",
+                                    "role": {
+                                        "id": 0,
+                                        "role": "User"
+                                    },
+                                    "no_telp": "081234567890",
+                                    "penyelenggara_layanan": {
+                                        "id": 1,
+                                        "nama": "Unit Perpustakaan"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Users API"
+                ],
+                "summary": "Update Current User",
+                "description": "Update current user",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "description": "token",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "token 1": {
+                                "value": "1d6e06f6-7f7a-4f85-b24d-40e8eb612fd6"
+                            },
+                            "token 2": {
+                                "value": "5a49b6d4-ea86-4568-86b9-781dcf1b01e1"
+                            },
+                            "token 3": {
+                                "value": "a9e0a54f-8951-4d8b-bd4c-325cc059e399"
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nama": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "no_telp": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "nama": "Emanuel Lega",
+                                    "email": "221910843@stis.ac.id",
+                                    "no_telp": "081234567890",
+                                    "password": "passwordRahasia"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "data": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "number"
+                                                    },
+                                                    "nama": {
+                                                        "type": "string"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "format": "email"
+                                                    },
+                                                    "Roles": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "number"
+                                                            },
+                                                            "role": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    },
+                                                    "no_telp": {
+                                                        "type": "string"
+                                                    },
+                                                    "penyelenggara_layanan": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "number"
+                                                            },
+                                                            "nama": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": "1",
+                                        "nama": "Emanuel Lega",
+                                        "email": "",
+                                        "role": {
+                                            "id": 0,
+                                            "role": "User"
+                                        },
+                                        "no_telp": "081234567890",
+                                        "penyelenggara_layanan": {
+                                            "id": 1,
+                                            "nama": "Unit Perpustakaan"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users API"
+                ],
+                "summary": "Get User by ID",
+                "description": "Get user by ID",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "description": "token",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "token 1": {
+                                "value": "1d6e06f6-7f7a-4f85-b24d-40e8eb612fd6"
+                            },
+                            "token 2": {
+                                "value": "5a49b6d4-ea86-4568-86b9-781dcf1b01e1"
+                            },
+                            "token 3": {
+                                "value": "a9e0a54f-8951-4d8b-bd4c-325cc059e399"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "number"
+                                            },
+                                            "nama": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "format": "email"
+                                            },
+                                            "Roles": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "number"
+                                                    },
+                                                    "role": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "no_telp": {
+                                                "type": "string"
+                                            },
+                                            "penyelenggara_layanan": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "number"
+                                                    },
+                                                    "nama": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "id": "1",
+                                    "nama": "Emanuel Lega",
+                                    "email": "",
+                                    "role": {
+                                        "id": 0,
+                                        "role": "User"
+                                    },
+                                    "no_telp": "081234567890",
+                                    "penyelenggara_layanan": {
+                                        "id": 1,
+                                        "nama": "Unit Perpustakaan"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Users API"
+                ],
+                "summary": "Update User by ID",
+                "description": "Update current user",
+                "responses": {
+                    "200": {
+                        "description": "User updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "number"
+                                            },
+                                            "nama": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "format": "email"
+                                            },
+                                            "Roles": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "number"
+                                                    },
+                                                    "role": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "no_telp": {
+                                                "type": "string"
+                                            },
+                                            "penyelenggara_layanan": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "number"
+                                                    },
+                                                    "nama": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "id": "1",
+                                    "nama": "Emanuel Lega",
+                                    "email": "",
+                                    "role": {
+                                        "id": 0,
+                                        "role": "User"
+                                    },
+                                    "no_telp": "081234567890",
+                                    "penyelenggara_layanan": {
+                                        "id": 1,
+                                        "nama": "Unit Perpustakaan"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/logout": {
+            "delete": {
+                "tags": [
+                    "Users API"
+                ],
+                "summary": "Logout User",
+                "description": "Logout user",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "description": "token",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "token 1": {
+                                "value": "1d6e06f6-7f7a-4f85-b24d-40e8eb612fd6"
+                            },
+                            "token 2": {
+                                "value": "5a49b6d4-ea86-4568-86b9-781dcf1b01e1"
+                            },
+                            "token 3": {
+                                "value": "a9e0a54f-8951-4d8b-bd4c-325cc059e399"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User logged out",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "data": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "data": "OK"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

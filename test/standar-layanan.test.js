@@ -13,13 +13,11 @@ import {
     removeSuperAdminTestUser,
     removeManyStandarLayanan
 } from "./test.util.js";
-import path from "path";
 import fs from "fs";
 import { prismaClient } from "../src/application/database.js";
-import exp from "constants";
 
 describe("POST /api/standar-layanan", function () {
-    beforeAll(async () => {
+    beforeEach(async () => {
         await createSuperAdminTestUser();
         await createTestUser();
     });
